@@ -19,7 +19,8 @@ export class PupilTopicService {
     async findByPupil(pupilId: number) {
         try {
             const pupilTopics = await this.pupilTopicRepository.findByPupil(pupilId);
-            return pupilTopics;
+            const pupilTopicIds = pupilTopics.map((pupilTopic) => pupilTopic.topicId);
+            return pupilTopicIds;
         } catch (error) {
             throw new InternalServerErrorException(error);
         }

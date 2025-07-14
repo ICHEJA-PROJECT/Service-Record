@@ -12,7 +12,7 @@ export class PupilSkillController {
         return await this.pupilSkillService.create(createPupilSkillDto);
     }
 
-    @Post()
+    @Post('many')
     @HttpCode(HttpStatus.CREATED)
     async createMany(@Body() createMany: { pupilSkills: [CreatePupilSkillDto]}) {
         return await this.pupilSkillService.createMany(createMany.pupilSkills);

@@ -15,13 +15,15 @@ export class PupilSkillRepositoryImpl implements PupilSkillRepository {
 
     async create(createPupilSkillDto: CreatePupilSkillDto): Promise<PupilSkillI> {
         try {
-            
+            console.log(createPupilSkillDto);
             const pupilExercise = await this.pupilExerciseRepository.findOne({ where: {id: createPupilSkillDto.pupilExerciseId}});
             if(!pupilExercise) throw new NotFoundException("El educando no tiene registrado el ejercicio al que corresponde este puntaje.");
 
             const pupilSkill = this.pupilSkillRepository.create({
-                ...CreatePupilSkillDto,
+                skillId: createPupilSkillDto.skillId,
+                pupilExerciseId: createPupilSkillDto.pupilExerciseId,
                 pupilExercise: pupilExercise,
+                score: createPupilSkillDto.score
             });
 
             return await this.pupilSkillRepository.save(pupilSkill);
