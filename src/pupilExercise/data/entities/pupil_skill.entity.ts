@@ -1,7 +1,9 @@
-import { PupilExerciseI } from "src/pupilTopic/domain/entitiesI/PupilExerciseI";
-import { PupilSkillI } from "src/pupilTopic/domain/entitiesI/PupilSkillI";
+
+import { PupilSkillI } from "src/pupilExercise/domain/entitiesI/PupilSkillI";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { PupilExerciseEntity } from "./pupil_exercise.entity";
+import { PupilExerciseI } from "src/pupilExercise/domain/entitiesI/PupilExerciseI";
+
 
 @Entity('educando_ejercicio_habilidades')
 export class PupilSkillEntity implements PupilSkillI {

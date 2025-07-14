@@ -1,11 +1,12 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { PupilSkillRepository } from "src/pupilTopic/domain/repositories/PupilSkillRepository";
-import { PupilSkillEntity } from "../entities/pupil_skill.entity";
 import { Repository } from "typeorm";
-import { PupilSkillI } from "src/pupilTopic/domain/entitiesI/PupilSkillI";
-import { CreatePupilSkillDto } from "../dtos/create-pupil-skill.dto";
 import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { PupilSkillRepository } from "src/pupilExercise/domain/repositories/PupilSkillRepository";
+import { PupilSkillEntity } from "../entities/pupil_skill.entity";
 import { PupilExerciseEntity } from "../entities/pupil_exercise.entity";
+import { CreatePupilSkillDto } from "../dtos/create-pupil-skill.dto";
+import { PupilSkillI } from "src/pupilExercise/domain/entitiesI/PupilSkillI";
+
 
 export class PupilSkillRepositoryImpl implements PupilSkillRepository {
     constructor(

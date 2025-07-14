@@ -3,6 +3,7 @@ import { PupilExerciseRepositoryImpl } from "../data/repositories/pupil_exercise
 import { PupilExerciseRepository } from "../domain/repositories/PupilExerciseRepository";
 import { CreatePupilExerciseDto } from "../data/dtos/create-pupil-exercise.dto";
 
+
 export class PupilExerciseService {
     constructor(@Inject(PupilExerciseRepositoryImpl) private readonly pupilExerciseRepository: PupilExerciseRepository) {}
 

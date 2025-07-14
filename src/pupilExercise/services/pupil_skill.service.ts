@@ -3,6 +3,7 @@ import { PupilSkillRepositoryImpl } from "../data/repositories/pupil_skill.repos
 import { PupilSkillRepository } from "../domain/repositories/PupilSkillRepository";
 import { CreatePupilSkillDto } from "../data/dtos/create-pupil-skill.dto";
 
+
 export class PupilSkillService {
     constructor(@Inject(PupilSkillRepositoryImpl) private readonly pupilSkillRepository: PupilSkillRepository) {}
 

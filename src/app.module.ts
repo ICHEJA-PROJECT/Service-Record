@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { envsValues } from './core/config/getEnvs';
 import { PupilTopicModule } from './pupilTopic/pupil_topic.module';
+import { PupilExerciseModule } from './pupilExercise/pupil_exercise.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { PupilTopicModule } from './pupilTopic/pupil_topic.module';
       synchronize: true,
       logging: true
     }),
-    PupilTopicModule
+    PupilTopicModule,
+    PupilExerciseModule
   ],
   controllers: [],
   providers: [],

@@ -1,10 +1,12 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { PupilExerciseRepository } from "src/pupilTopic/domain/repositories/PupilExerciseRepository";
-import { PupilExerciseEntity } from "../entities/pupil_exercise.entity";
+
 import { Repository } from "typeorm";
-import { CreatePupilExerciseDto } from "../dtos/create-pupil-exercise.dto";
-import { PupilExerciseI } from "src/pupilTopic/domain/entitiesI/PupilExerciseI";
+
 import { InternalServerErrorException, NotFoundException } from "@nestjs/common";
+import { PupilExerciseRepository } from "src/pupilExercise/domain/repositories/PupilExerciseRepository";
+import { PupilExerciseEntity } from "../entities/pupil_exercise.entity";
+import { CreatePupilExerciseDto } from "../dtos/create-pupil-exercise.dto";
+import { PupilExerciseI } from "src/pupilExercise/domain/entitiesI/PupilExerciseI";
 
 export class PupilExerciseRepositoryImpl implements PupilExerciseRepository {
     constructor(@InjectRepository(PupilExerciseEntity) private readonly pupilExerciseRepository: Repository<PupilExerciseEntity>) {}
