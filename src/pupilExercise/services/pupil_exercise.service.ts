@@ -33,4 +33,14 @@ export class PupilExerciseService {
             throw new InternalServerErrorException(error);
         }
     }
+
+    async findByPupilOnlyIds(pupilId: number) {
+        try {
+            const pupilExercises = await this.pupilExerciseRepository.findByPupil(pupilId);
+            const pupilExerciseIds = pupilExercises.map((pupilExercise) => pupilExercise.exerciseId);
+            return pupilExerciseIds;
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
 }

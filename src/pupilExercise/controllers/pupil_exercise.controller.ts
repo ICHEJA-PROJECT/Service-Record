@@ -12,13 +12,19 @@ export class PupilExerciseController {
         return await this.pupilExerciseService.create(createPupilExerciseDto);
     }
 
-    @Get('pupil/:id')
+    @Get('pupils/:id/ids')
+    @HttpCode(HttpStatus.OK)
+    async findByPupilOnlyIds(@Param('id') id: number) {
+        return await this.pupilExerciseService.findByPupilOnlyIds(id);
+    }
+
+    @Get('pupils/:id')
     @HttpCode(HttpStatus.OK)
     async findByPupil(@Param('id') id: number) {
         return await this.pupilExerciseService.findeByPupil(id);
     }
     
-    @Get('exercise/:id')
+    @Get('exercises/:id')
     @HttpCode(HttpStatus.OK)
     async findByExercise(@Param('id') id: number) {
         return await this.pupilExerciseService.findeByExercise(id);

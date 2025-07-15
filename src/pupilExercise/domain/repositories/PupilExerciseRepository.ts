@@ -5,5 +5,6 @@ import { PupilExerciseI } from "../entitiesI/PupilExerciseI";
 export interface PupilExerciseRepository {
     create(createPupilExerciseDto: CreatePupilExerciseDto): Promise<PupilExerciseI>;
     findByPupil(pupilId: number): Promise<PupilExerciseI[]>;
-    findByExercise(exerciseId: number): Promise<PupilExerciseI>
+    findByExercise(exerciseId: number): Promise<PupilExerciseI>;
+    findOne(id: number): Promise<PupilExerciseI>;
 }

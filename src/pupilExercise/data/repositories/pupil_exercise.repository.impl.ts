@@ -38,4 +38,14 @@ export class PupilExerciseRepositoryImpl implements PupilExerciseRepository {
             throw new InternalServerErrorException(error);
         }
     }
+
+    async findOne(id: number): Promise<PupilExerciseI> {
+        try {
+            const pupilExercise = await this.pupilExerciseRepository.findOne({ where: {id: id}});
+            if(!pupilExercise) throw new NotFoundException("El ejercicio no lo tiene registrado el educando.");
+            return pupilExercise;
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
 }
