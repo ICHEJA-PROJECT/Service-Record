@@ -6,4 +6,5 @@ export interface EnvsI {
     DB_USERNAME: string;
     DB_PASSWORD: string;
     BROKER_HOSTS: string[];
+    SERVICE_EXERCISE_URL: string;
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query } from "@nestjs/common";
 import { PupilSkillService } from "../services/pupil_skill.service";
 import { CreatePupilSkillDto } from "../data/dtos/create-pupil-skill.dto";
 
@@ -30,4 +30,11 @@ export class PupilSkillController {
         return await this.pupilSkillService.findByPupil(id);
     }
     
+    @Get('/grades/skills')
+    @HttpCode(HttpStatus.OK)
+    async getGradeBySkills(@Query('pupilId') pupilId: string,@Query('skills') skills: string) {
+        let parsedSkills: number[];
+        parsedSkills = skills.split(',').map(skill => parseInt(skill.trim()));
+        return await this.pupilSkillService.calculateGradesBySkills(parseInt(pupilId), parsedSkills);
+    }
 }

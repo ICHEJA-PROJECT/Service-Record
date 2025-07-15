@@ -8,6 +8,8 @@ import { PupilExerciseRepositoryImpl } from "./data/repositories/pupil_exercise.
 import { PupilSkillRepositoryImpl } from "./data/repositories/pupil_skill.repository.impl";
 import { PupilExerciseService } from "./services/pupil_exercise.service";
 import { PupilSkillService } from "./services/pupil_skill.service";
+import { CalculateGradesBySkillUseCase } from "./domain/usecases/CalculateGradeBySkillUseCase";
+import { GetPorcentageTemplateSkillTransport } from "./transport/get-porcentage-template-skill.transport";
 
 @Module({
     imports: [
@@ -15,6 +17,7 @@ import { PupilSkillService } from "./services/pupil_skill.service";
             PupilExerciseEntity,
             PupilSkillEntity
         ]),
+        GetPorcentageTemplateSkillTransport 
     ],
     controllers: [
         PupilExerciseController,
@@ -23,6 +26,7 @@ import { PupilSkillService } from "./services/pupil_skill.service";
     providers: [
         PupilExerciseRepositoryImpl,
         PupilSkillRepositoryImpl,
+        CalculateGradesBySkillUseCase,
         PupilExerciseService,
         PupilSkillService
     ]
