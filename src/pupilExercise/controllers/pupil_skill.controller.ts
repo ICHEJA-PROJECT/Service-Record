@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post } from "@nestjs/common";
+import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post } from "@nestjs/common";
 import { PupilSkillService } from "../services/pupil_skill.service";
 import { CreatePupilSkillDto } from "../data/dtos/create-pupil-skill.dto";
 
@@ -22,6 +22,12 @@ export class PupilSkillController {
     @HttpCode(HttpStatus.OK)
     async getAll() {
         return await this.pupilSkillService.findAll();
+    }
+
+    @Get('pupil/:id')
+    @HttpCode(HttpStatus.OK)
+    async getByPupil(@Param('id') id: number) {
+        return await this.pupilSkillService.findByPupil(id);
     }
     
 }

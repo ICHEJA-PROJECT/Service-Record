@@ -33,4 +33,13 @@ export class PupilSkillService {
             throw new InternalServerErrorException(error);
         }
     }
+
+    async findByPupil(pupilId: number) {
+        try {
+            const pupilSkills = await this.pupilSkillRepository.findByPupil(pupilId);
+            return pupilSkills;
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
 }

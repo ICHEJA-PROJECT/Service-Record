@@ -66,4 +66,12 @@ export class PupilSkillRepositoryImpl implements PupilSkillRepository {
             throw new InternalServerErrorException(error);
         }
     }
+    async findByPupil(pupilId: number): Promise<PupilSkillI[]> {
+        try {
+            const pupilSkills = await this.pupilSkillRepository.find({where: {pupilExercise: {pupilId: pupilId}}});
+            return pupilSkills;
+        } catch (error) {
+            throw new InternalServerErrorException(error);
+        }
+    }
 }
