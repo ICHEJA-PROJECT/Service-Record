@@ -7,4 +7,5 @@ export interface PupilSkillRepository {
     cretaeMany(pupilSkills: [CreatePupilSkillDto]): Promise<PupilSkillI[]>;
     findAll(): Promise<PupilSkillI[]>;
     findByPupil(pupilId: number): Promise<PupilSkillI[]>;
+    findByPupilAndSkill(pupilId: number, skillId: number): Promise<PupilSkillI[]>;
 }

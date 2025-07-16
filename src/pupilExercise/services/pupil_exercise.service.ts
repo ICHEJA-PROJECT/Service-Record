@@ -49,4 +49,20 @@ export class PupilExerciseService {
       });
     }
   }
+
+  async findByPupilOnlyIds(pupilId: number) {
+    try {
+      const pupilExercises =
+        await this.pupilExerciseRepository.findByPupil(pupilId);
+      const pupilExerciseIds = pupilExercises.map(
+        (pupilExercise) => pupilExercise.exerciseId,
+      );
+      return pupilExerciseIds;
+    } catch (error) {
+      throw new RpcException({
+        status: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
+    }
+  }
 }

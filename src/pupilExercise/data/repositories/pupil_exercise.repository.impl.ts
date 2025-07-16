@@ -65,4 +65,23 @@ export class PupilExerciseRepositoryImpl implements PupilExerciseRepository {
       });
     }
   }
+  async findOne(id: number): Promise<PupilExerciseI> {
+    try {
+      const pupilExercise = await this.pupilExerciseRepository.findOne({
+        where: { id: id },
+      });
+      if (!pupilExercise) {
+        throw new RpcException({
+          status: HttpStatus.NOT_FOUND,
+          message: 'El ejercicio no lo tiene registrado el educando.',
+        });
+      }
+      return pupilExercise;
+    } catch (error) {
+      throw new RpcException({
+        status: HttpStatus.BAD_REQUEST,
+        message: error.message,
+      });
+    }
+  }
 }

@@ -33,4 +33,18 @@ export class PupilSkillController {
   async getByPupil(@Payload() id: number) {
     return await this.pupilSkillService.findByPupil(id);
   }
+
+  @Get('/grades/skills')
+  @HttpCode(HttpStatus.OK)
+  async getGradeBySkills(
+    @Query('pupilId') pupilId: string,
+    @Query('skills') skills: string,
+  ) {
+    let parsedSkills: number[];
+    parsedSkills = skills.split(',').map((skill) => parseInt(skill.trim()));
+    return await this.pupilSkillService.calculateGradesBySkills(
+      parseInt(pupilId),
+      parsedSkills,
+    );
+  }
 }

@@ -14,6 +14,12 @@ export class PupilExerciseController {
     return await this.pupilExerciseService.create(createPupilExerciseDto);
   }
 
+  @Get('pupils/:id/ids')
+  @HttpCode(HttpStatus.OK)
+  async findByPupilOnlyIds(@Param('id') id: number) {
+    return await this.pupilExerciseService.findByPupilOnlyIds(id);
+  }
+
   @MessagePattern({ cmd: RECORD_SERVICE_OPTIONS.PUPIL_EXERCISE_FIND_BY_PUPIL })
   @HttpCode(HttpStatus.OK)
   async findByPupil(@Payload() id: number) {
