@@ -15,10 +15,10 @@ import { PupilExerciseModule } from './pupilExercise/pupil_exercise.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       database: envsValues.DB_NAME,
       synchronize: true,
-      logging: true
+      logging: true,
     }),
     PupilTopicModule,
-    PupilExerciseModule
+    PupilExerciseModule,
   ],
   controllers: [],
   providers: [],
