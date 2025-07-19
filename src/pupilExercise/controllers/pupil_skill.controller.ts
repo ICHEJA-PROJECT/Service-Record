@@ -1,40 +1,42 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query } from "@nestjs/common";
-import { PupilSkillService } from "../services/pupil_skill.service";
-import { CreatePupilSkillDto } from "../data/dtos/create-pupil-skill.dto";
+import { Controller } from '@nestjs/common';
+import { PupilSkillService } from '../services/pupil_skill.service';
+import { CreatePupilSkillDto } from '../data/dtos/create-pupil-skill.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { RECORD_SERVICE_OPTIONS } from 'src/shared/constants/record_service_options';
 
 @Controller('pupil-skills')
 export class PupilSkillController {
-    constructor(private readonly pupilSkillService: PupilSkillService) {}
+  constructor(private readonly pupilSkillService: PupilSkillService) {}
 
-    @Post()
-    @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createPupilSkillDto: CreatePupilSkillDto) {
-        return await this.pupilSkillService.create(createPupilSkillDto);
-    }
+  @MessagePattern({ cmd: RECORD_SERVICE_OPTIONS.PUPIL_SKILL_CREATE })
+  async create(@Payload() createPupilSkillDto: CreatePupilSkillDto) {
+    return await this.pupilSkillService.create(createPupilSkillDto);
+  }
 
-    @Post('many')
-    @HttpCode(HttpStatus.CREATED)
-    async createMany(@Body() createMany: { pupilSkills: [CreatePupilSkillDto]}) {
-        return await this.pupilSkillService.createMany(createMany.pupilSkills);
-    }
+  @MessagePattern({ cmd: RECORD_SERVICE_OPTIONS.PUPIL_SKILL_CREATE_MANY })
+  async createMany(@Payload() pupilSkills: [CreatePupilSkillDto]) {
+    return await this.pupilSkillService.createMany(pupilSkills);
+  }
 
-    @Get()
-    @HttpCode(HttpStatus.OK)
-    async getAll() {
-        return await this.pupilSkillService.findAll();
-    }
+  @MessagePattern({ cmd: RECORD_SERVICE_OPTIONS.PUPIL_SKILL_FIND_ALL })
+  async getAll() {
+    return await this.pupilSkillService.findAll();
+  }
 
-    @Get('pupil/:id')
-    @HttpCode(HttpStatus.OK)
-    async getByPupil(@Param('id') id: number) {
-        return await this.pupilSkillService.findByPupil(id);
-    }
-    
-    @Get('/grades/skills')
-    @HttpCode(HttpStatus.OK)
-    async getGradeBySkills(@Query('pupilId') pupilId: string,@Query('skills') skills: string) {
-        let parsedSkills: number[];
-        parsedSkills = skills.split(',').map(skill => parseInt(skill.trim()));
-        return await this.pupilSkillService.calculateGradesBySkills(parseInt(pupilId), parsedSkills);
-    }
+  @MessagePattern({ cmd: RECORD_SERVICE_OPTIONS.PUPIL_SKILL_FIND_BY_PUPIL_ID })
+  async getByPupil(@Payload() id: number) {
+    return await this.pupilSkillService.findByPupil(id);
+  }
+
+  @MessagePattern({
+    cmd: RECORD_SERVICE_OPTIONS.PUPIL_SKILL_FIND_GRADE_BY_SKILLS,
+  })
+  async getGradeBySkills(
+    @Payload() { pupilId, skills }: { pupilId: number; skills: number[] },
+  ) {
+    return await this.pupilSkillService.calculateGradesBySkills(
+      pupilId,
+      skills,
+    );
+  }
 }
