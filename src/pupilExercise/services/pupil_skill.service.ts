@@ -29,7 +29,7 @@ export class PupilSkillService {
 
       const porcentageResponse = await firstValueFrom(
         this.client
-          .send(EXERCISE_SERVICE_OPTIONS.EXERCISE_PERCENTAGE, {
+          .send({cmd: EXERCISE_SERVICE_OPTIONS.EXERCISE_PERCENTAGE}, {
             id: pupilExercise.exerciseId,
             skillId: createPupilSkillDto.skillId,
           })
