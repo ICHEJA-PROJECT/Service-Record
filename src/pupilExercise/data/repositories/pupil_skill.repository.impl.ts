@@ -6,6 +6,7 @@ import { PupilSkillEntity } from "../entities/pupil_skill.entity";
 import { PupilExerciseEntity } from "../entities/pupil_exercise.entity";
 import { CreatePupilSkillDto } from "../dtos/create-pupil-skill.dto";
 import { PupilSkillI } from "src/pupilExercise/domain/entitiesI/PupilSkillI";
+import { CreateManyPupilSkillDto } from "../dtos/create-many-pupil-skill.dto";
 
 
 export class PupilSkillRepositoryImpl implements PupilSkillRepository {
@@ -33,14 +34,14 @@ export class PupilSkillRepositoryImpl implements PupilSkillRepository {
         }
     }
 
-    async cretaeMany(pupilSkills: [CreatePupilSkillDto]): Promise<PupilSkillI[]> {
+    async createMany(createMany: CreateManyPupilSkillDto): Promise<PupilSkillI[]> {
         try {
             
-            const pupilExerciseId = pupilSkills[0].pupilExerciseId;
+            const pupilExerciseId = createMany.pupilExerciseId;
             const pupilExercise = await this.pupilExerciseRepository.findOne({where: {id: pupilExerciseId}});
             if(!pupilExercise) throw new NotFoundException("El educando no tiene registrado el ejercicio al que corresponde este puntaje.");
 
-            const pupilSkillsToSave = pupilSkills.map(async (pupilSkill) => {
+            const pupilSkillsToSave = createMany.skills.map(async (pupilSkill) => {
                 const pupilSkillCreated = this.pupilSkillRepository.create({
                     ...pupilSkill,
                     pupilExercise: pupilExercise

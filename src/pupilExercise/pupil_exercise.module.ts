@@ -10,6 +10,7 @@ import { PupilExerciseService } from "./services/pupil_exercise.service";
 import { PupilSkillService } from "./services/pupil_skill.service";
 import { CalculateGradesBySkillUseCase } from "./domain/usecases/CalculateGradeBySkillUseCase";
 import { GetPorcentageTemplateSkillTransport } from "./transport/get-porcentage-template-skill.transport";
+import { CalculateSkillPercentagesUseCase } from "./domain/usecases/CalculateSkillPercentagesUseCase";
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { GetPorcentageTemplateSkillTransport } from "./transport/get-porcentage-
         PupilExerciseRepositoryImpl,
         PupilSkillRepositoryImpl,
         CalculateGradesBySkillUseCase,
+        CalculateSkillPercentagesUseCase,
         PupilExerciseService,
         PupilSkillService
     ]

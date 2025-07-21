@@ -1,6 +1,7 @@
 import { Body, Controller, Get, HttpCode, HttpStatus, Param, Post, Query } from "@nestjs/common";
 import { PupilSkillService } from "../services/pupil_skill.service";
 import { CreatePupilSkillDto } from "../data/dtos/create-pupil-skill.dto";
+import { CreateManyPupilSkillDto } from "../data/dtos/create-many-pupil-skill.dto";
 
 @Controller('pupil-skills')
 export class PupilSkillController {
@@ -14,8 +15,8 @@ export class PupilSkillController {
 
     @Post('many')
     @HttpCode(HttpStatus.CREATED)
-    async createMany(@Body() createMany: { pupilSkills: [CreatePupilSkillDto]}) {
-        return await this.pupilSkillService.createMany(createMany.pupilSkills);
+    async createMany(@Body() createMany: CreateManyPupilSkillDto) {
+        return await this.pupilSkillService.createMany(createMany);
     }
 
     @Get()

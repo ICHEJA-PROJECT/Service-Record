@@ -1,4 +1,4 @@
-import { Inject, InternalServerErrorException } from "@nestjs/common";
+import { HttpStatus, Inject, InternalServerErrorException } from "@nestjs/common";
 import { PupilSkillRepositoryImpl } from "../data/repositories/pupil_skill.repository.impl";
 import { PupilSkillRepository } from "../domain/repositories/PupilSkillRepository";
 import { CreatePupilSkillDto } from "../data/dtos/create-pupil-skill.dto";
@@ -8,6 +8,8 @@ import { PupilExerciseRepository } from "../domain/repositories/PupilExerciseRep
 import { catchError, firstValueFrom } from "rxjs";
 import { HttpService } from "@nestjs/axios";
 import { RpcException } from "@nestjs/microservices";
+import { CreateManyPupilSkillDto } from "../data/dtos/create-many-pupil-skill.dto";
+import { CalculateSkillPercentagesUseCase } from "../domain/usecases/CalculateSkillPercentagesUseCase";
 
 
 export class PupilSkillService {
@@ -15,7 +17,8 @@ export class PupilSkillService {
         @Inject(PupilExerciseRepositoryImpl) private readonly puilExerciseRepository: PupilExerciseRepository,
         @Inject(PupilSkillRepositoryImpl) private readonly pupilSkillRepository: PupilSkillRepository,
         private readonly calculateGradeBySkillUseCase: CalculateGradesBySkillUseCase,
-        private readonly httpService: HttpService
+        private readonly httpService: HttpService,
+        private readonly calculateSkillPercentagesUseCase: CalculateSkillPercentagesUseCase
     ) {}
 
     async create(createPupilSkillDto: CreatePupilSkillDto) {
@@ -48,9 +51,35 @@ export class PupilSkillService {
         }
     }
 
-    async createMany(pupilSkills: [CreatePupilSkillDto]) {
+    async createMany(createMany: CreateManyPupilSkillDto) {
         try {
-            const pupilSkillsSaved = await this.pupilSkillRepository.cretaeMany(pupilSkills);
+
+            const skillPorcentagesResponse = await firstValueFrom(
+                this.httpService.get(`exercises/${createMany.pupilExerciseId}/porcentages`)
+                    .pipe(catchError((error) => {
+                        throw new RpcException({
+                            message: error.message,
+                            status: HttpStatus.BAD_REQUEST
+                        });
+                    }))
+            );
+
+            const skillPorcentages = skillPorcentagesResponse.data;
+
+            const skillPorcentagesCalculated = this.calculateSkillPercentagesUseCase.run(createMany.skills, skillPorcentages);
+
+            const pupilSkills = skillPorcentagesCalculated.map((skillPercentage) => {
+                return {
+                    skillId: skillPercentage.skillId as number,
+                    score: skillPercentage.score as number
+                };
+            });
+
+            const pupilSkillsSaved = await this.pupilSkillRepository.createMany({
+                pupilExerciseId: createMany.pupilExerciseId,
+                skills: pupilSkills
+            });
+
             return pupilSkillsSaved;
         } catch (error) {
             throw new InternalServerErrorException(error);
