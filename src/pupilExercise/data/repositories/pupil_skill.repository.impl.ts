@@ -7,6 +7,7 @@ import { PupilExerciseEntity } from '../entities/pupil_exercise.entity';
 import { CreatePupilSkillDto } from '../dtos/create-pupil-skill.dto';
 import { PupilSkillI } from 'src/pupilExercise/domain/entitiesI/PupilSkillI';
 import { RpcException } from '@nestjs/microservices';
+import { CreateManyPupilSkillDto } from '../dtos/create-many-pupil-skill.dto';
 
 export class PupilSkillRepositoryImpl implements PupilSkillRepository {
   constructor(
@@ -46,9 +47,9 @@ export class PupilSkillRepositoryImpl implements PupilSkillRepository {
     }
   }
 
-  async cretaeMany(pupilSkills: [CreatePupilSkillDto]): Promise<PupilSkillI[]> {
+  async createMany(createManyPupilSkillDto: CreateManyPupilSkillDto): Promise<PupilSkillI[]> {
     try {
-      const pupilExerciseId = pupilSkills[0].pupilExerciseId;
+      const pupilExerciseId = createManyPupilSkillDto.pupilExerciseId;
       const pupilExercise = await this.pupilExerciseRepository.findOne({
         where: { id: pupilExerciseId },
       });
@@ -60,7 +61,7 @@ export class PupilSkillRepositoryImpl implements PupilSkillRepository {
         });
       }
 
-      const pupilSkillsToSave = pupilSkills.map(async (pupilSkill) => {
+      const pupilSkillsToSave = createManyPupilSkillDto.skillScores.map(async (pupilSkill) => {
         const pupilSkillCreated = this.pupilSkillRepository.create({
           ...pupilSkill,
           pupilExercise: pupilExercise,
