@@ -7,7 +7,8 @@ export const EXERCISE_SERVICE_OPTIONS = {
   EXERCISE_PERCENTAGE: 'exercise.findPercentage',
   EXERCISE_FIND_BY_PUPIL_ID: 'exercise.findByPupilId',
   EXERCISE_FIND_BY_ID: 'exercise.findById',
-
+  EXERCISE_PERCENTAGES_BY_ID: 'exercise.percentagesById',
+  
   //! ---------------- Exercise layout controllers ----------------
   EXERCISE_LAYOUT_CREATE: 'exercise.layout.create',
   EXERCISE_LAYOUT_FIND_ALL: 'exercise.layout.findAll',

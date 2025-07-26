@@ -9,6 +9,8 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { EXERCISE_SERVICE_OPTIONS } from 'src/shared/constants/exercise_service_options';
+import { CreateManyPupilSkillDto } from '../data/dtos/create-many-pupil-skill.dto';
+import { SkillPercentageDto } from '../data/dtos/skill-percentage.dto';
 
 export class PupilSkillService {
   constructor(
@@ -63,10 +65,40 @@ export class PupilSkillService {
     }
   }
 
-  async createMany(pupilSkills: [CreatePupilSkillDto]) {
+  async createMany(createManyPupilSkillDto: CreateManyPupilSkillDto) {
     try {
+
+      const skillPorcentagesRes = await firstValueFrom(
+        this.client
+          .send({cmd: EXERCISE_SERVICE_OPTIONS.EXERCISE_PERCENTAGES_BY_ID}, {
+            id: createManyPupilSkillDto.pupilExerciseId
+          })
+          .pipe(catchError((error) => {
+            throw new RpcException({
+              status: HttpStatus.BAD_REQUEST,
+              message:
+                error.message || 'Error en la petición HTTP a exercises',
+              code: error.code || 'HTTP_ERROR',
+              details: error.response?.data || error,
+            });
+          }))
+      );
+
+      const skillPorcentages: SkillPercentageDto[] = skillPorcentagesRes.data;
+
+      createManyPupilSkillDto.skillScores.forEach((pupilSkill) => {
+        const percentage = skillPorcentages.find(
+          (skill) => skill.skillId === pupilSkill.skillId,
+        )?.percentage;
+
+        if (percentage) {
+          pupilSkill.score = pupilSkill.score * percentage;
+        }
+      });
+
       const pupilSkillsSaved =
-        await this.pupilSkillRepository.cretaeMany(pupilSkills);
+        await this.pupilSkillRepository.createMany(createManyPupilSkillDto);
+        
       return pupilSkillsSaved;
     } catch (error) {
       throw new RpcException({
