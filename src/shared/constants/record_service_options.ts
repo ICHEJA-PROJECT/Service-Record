@@ -6,6 +6,8 @@ export const RECORD_SERVICE_OPTIONS = {
   PUPIL_EXERCISE_FIND_BY_PUPILS_IDS: 'pupilExercise.findByPupilIds',
   PUPIL_EXERCISE_FIND_BY_PUPIL: 'pupilExercise.findByPupil',
   PUPIL_EXERCISE_FIND_BY_EXERCISE: 'pupilExercise.findByExercise',
+  PUPIL_EXERCISE_FIND_ASSIGNED_EXERCISES_BY_PUPIL: 'pupilExercise.findByPupil.uncompletedExercises',
+  PUPIL_EXERCISE_UPDATE_EXERCISE_TO_COMPLETED: 'pupilExercise.updateExercise.toCompleted',
 
   //! ---------------- Pupil skill controllers ---------------
   PUPIL_SKILL_CREATE: 'pupilSkill.create',

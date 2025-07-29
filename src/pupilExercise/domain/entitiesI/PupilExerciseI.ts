@@ -4,8 +4,8 @@ export interface PupilExerciseI {
     id: number;
     pupilId: number;
     exerciseId: number;
-    assignedDate: Date;
-    completedDate: Date;
+    assignedDate: Date | null;
+    completedDate: Date | null;
     assignedTime: string;
     skills: PupilSkillI[];
 }

@@ -3,6 +3,7 @@ import { PupilExerciseService } from '../services/pupil_exercise.service';
 import { CreatePupilExerciseDto } from '../data/dtos/create-pupil-exercise.dto';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { RECORD_SERVICE_OPTIONS } from 'src/shared/constants/record_service_options';
+import { UpdatePupilExerciseDto } from '../data/dtos/update-pupil-exercise.dto';
 
 @Controller('pupil-exercises')
 export class PupilExerciseController {
@@ -30,5 +31,19 @@ export class PupilExerciseController {
   })
   async findByExercise(@Payload() id: number) {
     return await this.pupilExerciseService.findeByExercise(id);
+  }
+
+  @MessagePattern({
+    cmd: RECORD_SERVICE_OPTIONS.PUPIL_EXERCISE_FIND_ASSIGNED_EXERCISES_BY_PUPIL
+  })
+  async findAssignedExercisesByPupil(@Payload() id: number) {
+    return await this.pupilExerciseService.findAssignedExercisesByPupil(id);
+  }
+
+  @MessagePattern({
+    cmd: RECORD_SERVICE_OPTIONS.PUPIL_EXERCISE_UPDATE_EXERCISE_TO_COMPLETED
+  })
+  async updateExerciseToCompleted (@Payload() { id, updatePupilExerciseDto }: { id: number, updatePupilExerciseDto: UpdatePupilExerciseDto }) {
+    return await this.pupilExerciseService.updateExerciseToCompleted(id, updatePupilExerciseDto);
   }
 }
