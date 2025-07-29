@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { HttpStatus } from '@nestjs/common';
 import { PupilSkillRepository } from 'src/pupilExercise/domain/repositories/PupilSkillRepository';
 import { PupilSkillEntity } from '../entities/pupil_skill.entity';
@@ -95,7 +95,7 @@ export class PupilSkillRepositoryImpl implements PupilSkillRepository {
   async findByPupil(pupilId: number): Promise<PupilSkillI[]> {
     try {
       const pupilSkills = await this.pupilSkillRepository.find({
-        where: { pupilExercise: { pupilId: pupilId } },
+        where: { pupilExercise: { pupilId: pupilId, completedDate: Not(IsNull())}},
       });
       return pupilSkills;
     } catch (error) {
