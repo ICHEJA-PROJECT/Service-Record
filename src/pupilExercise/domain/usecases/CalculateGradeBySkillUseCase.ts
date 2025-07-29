@@ -22,16 +22,16 @@ export class CalculateGradesBySkillUseCase {
 
             // Ordenar por fecha
             const rankedScores = pupilSkills
-                .sort((a, b) => b.pupilExercise.completedDate.getTime() - a.pupilExercise.completedDate.getTime());
+                .sort((a, b) => b.pupilExercise.completedDate!.getTime() - a.pupilExercise.completedDate!.getTime());
 
-            const fechaReferencia = rankedScores[0].pupilExercise.completedDate.getTime();
+            const fechaReferencia = rankedScores[0].pupilExercise.completedDate!.getTime();
             let sumaProductos = 0;
             let sumaPesos = 0;
 
             rankedScores.forEach((rankedScore) => {
             // Calcular días transcurridos desde la calificación más reciente
             const diasTranscurridos = Math.abs(
-                (fechaReferencia - rankedScore.pupilExercise.completedDate.getTime()) / (1000 * 60 * 60 * 24)
+                (fechaReferencia - rankedScore.pupilExercise.completedDate!.getTime()) / (1000 * 60 * 60 * 24)
             );
             
             // Peso usando función logarítmica con decaimiento temporal

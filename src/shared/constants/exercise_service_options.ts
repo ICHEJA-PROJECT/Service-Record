@@ -8,7 +8,9 @@ export const EXERCISE_SERVICE_OPTIONS = {
   EXERCISE_FIND_BY_PUPIL_ID: 'exercise.findByPupilId',
   EXERCISE_FIND_BY_ID: 'exercise.findById',
   EXERCISE_PERCENTAGES_BY_ID: 'exercise.percentagesById',
-  
+  EXERCISE_RANDOM_FIND_BY_TEMPLATE: 'exercise.random.findByTemplate',
+  EXERCISE_FIND_BY_IDS: 'exercise.findByIds',
+
   //! ---------------- Exercise layout controllers ----------------
   EXERCISE_LAYOUT_CREATE: 'exercise.layout.create',
   EXERCISE_LAYOUT_FIND_ALL: 'exercise.layout.findAll',
@@ -45,6 +47,11 @@ export const EXERCISE_SERVICE_OPTIONS = {
   //! ---------------- Exercise topic resource controllers ----------------
   EXERCISE_TOPIC_RESOURCE_CREATE: 'exercise.topicResource.create',
   EXERCISE_TOPIC_RESOURCE_FIND_ALL: 'exercise.topicResource.findAll',
+
+  //! ---------------- Exercise learning path resource controllers ----------------
+  EXERCISE_LEARNING_PATH_CREATE: 'exercise.learningPath.create',
+  EXERCISE_LEARNING_PATH_FIND_ALL: 'exercise.learningPath.findAll',
+  EXERCISE_LEARNING_PATH_FIND_BY_ID: 'exercise.learningPath.findById',
 
   //! ---------------- Exercise topic sequence controllers ----------------
   EXERCISE_TOPIC_SEQUENCE_CREATE: 'exercise.topicSequence.create',

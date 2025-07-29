@@ -1,6 +1,6 @@
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 
 import { HttpStatus } from '@nestjs/common';
 import { PupilExerciseRepository } from 'src/pupilExercise/domain/repositories/PupilExerciseRepository';
@@ -8,6 +8,7 @@ import { PupilExerciseEntity } from '../entities/pupil_exercise.entity';
 import { CreatePupilExerciseDto } from '../dtos/create-pupil-exercise.dto';
 import { PupilExerciseI } from 'src/pupilExercise/domain/entitiesI/PupilExerciseI';
 import { RpcException } from '@nestjs/microservices';
+import { UpdatePupilExerciseDto } from '../dtos/update-pupil-exercise.dto';
 
 export class PupilExerciseRepositoryImpl implements PupilExerciseRepository {
   constructor(
@@ -84,5 +85,44 @@ export class PupilExerciseRepositoryImpl implements PupilExerciseRepository {
         message: error.message,
       });
     }
+  }
+
+  async updateExerciseToCompleted(id: number, updatePupilExerciseDto: UpdatePupilExerciseDto): Promise<any> {
+      try {
+        const exercise = await this.pupilExerciseRepository.update(
+          { id }, 
+          {
+            assignedDate: updatePupilExerciseDto.assignedDate,
+            completedDate: updatePupilExerciseDto.completedDate,
+          }
+        );
+
+        return exercise;
+      } catch (error) {
+        throw new RpcException({
+          message: error.message,
+          status: HttpStatus.BAD_REQUEST,
+        });
+      }
+  }
+
+  async findAssignedExercisesByPupil(pupilId: number): Promise<PupilExerciseI[]> {
+      try {
+        const pupilExercises = await this.pupilExerciseRepository.find({
+          where: {
+            assignedDate: IsNull(),
+            completedDate: IsNull(),
+            byTeacher: true,
+            pupilId
+          }
+        });
+
+        return pupilExercises;
+      } catch (error) {
+        throw new RpcException({
+          message: error.message,
+          status: HttpStatus.BAD_REQUEST,
+        });
+      }
   }
 }
